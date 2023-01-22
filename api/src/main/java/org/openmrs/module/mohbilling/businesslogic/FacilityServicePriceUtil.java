@@ -511,7 +511,7 @@ public class FacilityServicePriceUtil {
 		for(Insurance insurance : insurances) {
 			if(!insurance.isVoided())
 				try {
-					if(!fsp.getCategory().toLowerCase().equals("medicaments") && !fsp.getCategory().toLowerCase().equals("consommables") && !fsp.getCategory().equals("AUTRES")) {
+					if(!fsp.getCategory().toLowerCase().equals("medicaments") && !fsp.getCategory().toLowerCase().equals("consommables") && !fsp.getCategory().equals("AUTRES") && !fsp.getItemType().equals(2)) {
 
 						if(FacilityServicePriceUtil.isBillableCreated(fsp, insurance)) {
 							System.out.println("The bill exist already");
@@ -576,6 +576,9 @@ public class FacilityServicePriceUtil {
 					}
 					else {
 						if(FacilityServicePriceUtil.isBillableCreated(fsp, insurance)) {
+							if (fsp.getItemType()==2 && insurance.getCategory().toLowerCase().equals("mutuelle")){
+								continue;
+							}
 							System.out.println("Existing tarrif item");
 							bs = getService().getBillableServiceByConcept(fsp, insurance);
 							bs.setStartDate(startDate);
@@ -587,6 +590,9 @@ public class FacilityServicePriceUtil {
 							bs.setFacilityServicePrice(fsp);
 							bs.setMaximaToPay(fsp.getFullPrice());
 						} else {
+							if (fsp.getItemType()==2 && insurance.getCategory().toLowerCase().equals("mutuelle")){
+								continue;
+							}
 							System.out.println("New Tarrif item");
 							bs = new BillableService();
 							bs.setStartDate(startDate);

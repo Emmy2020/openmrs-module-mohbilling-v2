@@ -123,8 +123,10 @@
 </c:if>
 <c:if test="${globalBill.closed==true}">
 	<div style="float: left;">
-		<button id="btnRevert">Edit Global Bill</button>
-	</div>
+        		<openmrs:hasPrivilege privilege="revert global bill">
+        		<button id="btnRevert">Edit Global Bill</button>
+        		</openmrs:hasPrivilege>
+        	</div>
 </c:if>
 <div id="revert_discharge">
 	<form action="viewGlobalBill.form?globalBillId=${globalBill.globalBillId}&edit_global_bill=true&revert_global_bill=${revert_global_bill}" method="post" id="revertGB">

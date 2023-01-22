@@ -150,37 +150,13 @@ function  cancelClosingGlobalBill(){
 		</c:otherwise>
 	</c:choose>
 			</tr>
-
-			<tr>
-				<td>Admission Type</td>
-				<c:choose>
-					<c:when test="${insurancePolicy.insurance.category!='MUTUELLE'}">
-						<td>
-							<select name="admissionType" required>
-								<option value="">Please!! Select Admission Type</option>
-								<option value="1">Ordinary Admission</option>
-								<option value="2">DCP Admission</option>
-							</select>
-						</td>
-					</c:when>
-					<c:otherwise>
-						<td>
-							<select name="" disabled>
-								<option value="" >Not Applicable</option>
-							</select>
-						</td>
-					</c:otherwise>
-				</c:choose>
-			</tr>
-
-
 		</table>
 	</div>
 	<br /> <br /> <input type="submit" value="Save Admission " 	id="submitButtonId" />
 </form>
 
 
-<!-- 
+<!--
 <c:if test="${empty globalBills }">
 <div class="box">
    <p style="text-align: center;color: red;">No Admission found!</p>
@@ -201,9 +177,8 @@ function  cancelClosingGlobalBill(){
 		<th class="columnHeader">Insurance name</th>
 		<th class="columnHeader">Card Number</th>
 		<th class="columnHeader">Admission Type</th>
-		<th class="columnHeader">admission date</th>	
-		<th class="columnHeader">Discharge date</th>	
-		<th class="columnHeader">Admission Type</th>		
+		<th class="columnHeader">admission date</th>
+		<th class="columnHeader">Discharge date</th>
 		<th class="columnHeader">Bill</th>
 		</tr>
 		<c:forEach items="${globalBills}" var="gb" varStatus="status">

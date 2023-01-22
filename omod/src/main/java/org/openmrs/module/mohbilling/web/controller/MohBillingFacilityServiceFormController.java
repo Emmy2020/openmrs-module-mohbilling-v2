@@ -13,11 +13,10 @@ import org.openmrs.module.mohbilling.model.BillableService;
 import org.openmrs.module.mohbilling.model.FacilityServicePrice;
 import org.openmrs.module.mohbilling.service.BillingService;
 import org.openmrs.web.WebConstants;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.ParameterizableViewController;
 import org.springframework.web.servlet.view.RedirectView;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
@@ -37,7 +36,6 @@ public class MohBillingFacilityServiceFormController extends
 	protected final Log log = LogFactory.getLog(getClass());
 
 	@Override
-	@RequestMapping(value = "module/mohbilling/facilityService.form", method = RequestMethod.POST)
 	protected ModelAndView handleRequestInternal(HttpServletRequest request,
 												 HttpServletResponse response) throws Exception {
 
@@ -160,7 +158,6 @@ public class MohBillingFacilityServiceFormController extends
 
 				// keep previews fs info before setting new price
 				fspCopy.setName(fs.getName());
-				fspCopy.setConcept(fs.getConcept());
 				fspCopy.setDescription(fs.getDescription());
 				fspCopy.setCategory(fs.getCategory());
 				fspCopy.setFullPrice(oldfs.getFullPrice());
@@ -189,13 +186,12 @@ public class MohBillingFacilityServiceFormController extends
 		try {
 			/*Create new facilityService*/
 			fs.setName(request.getParameter("facilityServiceName"));
-			fs.setConcept(Context.getConceptService().getConcept(Integer.valueOf(request
-					.getParameter("facilityServiceRelatedConcept"))));
 			fs.setShortName(request.getParameter("facilityServiceShortName"));
 			fs.setDescription(request
 					.getParameter("facilityServiceDescription"));
 			fs.setCategory(request
 					.getParameter("facilityServiceCategory"));
+			fs.setItemType(Integer.parseInt(request.getParameter("facilityServiceItemType")));
 			fs.setStartDate(Context.getDateFormat().parse(
 					request.getParameter("facilityServiceStartDate")));
 
@@ -227,7 +223,6 @@ public class MohBillingFacilityServiceFormController extends
 				/*update all related billable service*/
 				FacilityServicePriceUtil.cascadeUpdateFacilityService(fs);
 			}
-
 			request.getSession().setAttribute(WebConstants.OPENMRS_MSG_ATTR,
 					"The Facility Service has been saved successfully !");
 		} catch (Exception e) {
@@ -237,7 +232,6 @@ public class MohBillingFacilityServiceFormController extends
 			e.printStackTrace();
 			return false;
 		}
-
 		return true;
 	}
 
@@ -263,7 +257,6 @@ public class MohBillingFacilityServiceFormController extends
 			e.printStackTrace();
 			return false;
 		}
-
 		try {
 			/*Retire existing facilityService*/
 			fs.setRetiredDate(new Date());
@@ -281,8 +274,6 @@ public class MohBillingFacilityServiceFormController extends
 			e.printStackTrace();
 			return false;
 		}
-
 		return true;
 	}
-
 }

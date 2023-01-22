@@ -218,17 +218,18 @@ public class ConsommationUtil {
 					if(request.getParameter("billableServiceId_"+i)!=null && request.getParameter("quantity_"+i)!=null && request.getParameter("servicePrice_"+i)!=null) {
 						bs = InsuranceUtil.getValidBillableService(Integer.valueOf(request.getParameter("billableServiceId_" + i)));
 						HopService hopService = HopServiceUtil.getServiceByName(bs.getServiceCategory().getName());
+						item_type = bs.getFacilityServicePrice().getItemType().intValue();
 						quantity = BigDecimal.valueOf(Double.valueOf(request.getParameter("quantity_" + i)));
 						unitPrice = BigDecimal.valueOf(Double.valueOf(request.getParameter("servicePrice_" + i)));
 						drugf = request.getParameter("frequency_"+i);
 						psb = new PatientServiceBill(bs, hopService, new Date(), unitPrice, quantity, creator, new Date(),drugf);
 						addedItemTotalAmount=addedItemTotalAmount.add(quantity.multiply(unitPrice));
-							if(existingItemsLoopControl==0) {
-								for (PatientServiceBill pp : existingConsom.getBillItems()) {
-									totalExistingConsomm = totalExistingConsomm.add(pp.getQuantity().multiply(pp.getUnitPrice()));
-								}
-								existingItemsLoopControl++;
+						if(existingItemsLoopControl==0) {
+							for (PatientServiceBill pp : existingConsom.getBillItems()) {
+								totalExistingConsomm = totalExistingConsomm.add(pp.getQuantity().multiply(pp.getUnitPrice()));
 							}
+							existingItemsLoopControl++;
+						}
 
 						existingConsom.addBillItem(psb);
 
